@@ -1,0 +1,17 @@
+{% extends "config/create_config.html" %}
+{% block title %} Ошибка 504 {% endblock %}
+{% block content %}
+
+<main role="main" class="container">
+<div class="row">
+    <div class="col-md-12">
+<!--        <h1>Ошибка 504</h1>-->
+        <p class="lead">Ошибка соединения с микротиком {{ ip_mikrotik }}</p>
+        <br>
+        <input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+    </div>
+</div>
+</main>
+
+
+{% endblock %}

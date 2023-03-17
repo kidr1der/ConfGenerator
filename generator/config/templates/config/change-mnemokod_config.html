@@ -1,0 +1,47 @@
+{% extends 'config/change_config.html' %}
+
+{% block content %}
+
+{% for mnemo in mnemokod %}
+
+################################################################################<br>
+<u><b>central mikrotik:</b></u><br>
+<br>
+/ppp secret set {{ mnemo.0 }} name={{ mnemo.1 }}<br>
+/interface eoip set {{ mnemo.0 }} name={{ mnemo.1 }}<br>
+<br>
+
+<u><b>client's mobibox:</b></u><br>
+<br>
+/system identity set name={{ mnemo.1 }}<br>
+/tool netwatch remove numbers=0<br>
+/interface l2tp-client set numbers=0 user={{ mnemo.1 }}<br>
+<br>
+{% endfor %}
+<br>
+
+:global user [/interface l2tp-client get number=0 value-name=user] <br>
+:global pass [/interface l2tp-client get number=0 value-name=password] <br>
+:global l2tpIP [/interface l2tp-client get number=0 value-name=connect-to] <br>
+:global maxmtu [/interface l2tp-client get number=0 value-name=max-mtu] <br>
+:global maxmru [/interface l2tp-client get number=0 value-name=max-mru] <br>
+<br>
+/tool netwatch add host=$l2tpIP down-script="log error \"Core mikrotik DOWN, trying reset USB power... See netwatch.\"\ <br>
+    \n/system routerboard usb power-reset duration=10s\ <br>
+    \n:delay 25\ <br>
+    \n/ip dhcp-client add default-route-distance=10 interface=lte1 disabled=no\ <br>
+    \n/ip dhcp-client set interface=lte1 numbers=0\ <br>
+    \n/ip dhcp-client set default-route-distance=10 numbers=0" up-script=":global stausL2TP [/interface l2tp-client get number=0 running]\ <br>
+    \nif (\$stausL2TP = false) do={\ <br>
+    \n  log error \"Core mikrotik UP, but l2tp not running, trying reconfigure l2tp...See netwatch.\"\ <br>
+    \n  /interface l2tp-client remove [/interface l2tp-client find]\ <br>
+    \n  /interface l2tp-client add name=l2tp-out1 add-default-route=yes connect-to=$l2tpIP default-route-distance=1 disabled=no \ <br>
+    password=\"$pass\" profile=default user=$user max-mtu=$maxmtu max-mru=$maxmru keepalive-timeout=disabled\ <br>
+    \n}" <br>
+
+<br>
+
+
+
+<input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+{% endblock  %}

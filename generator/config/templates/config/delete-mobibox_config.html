@@ -1,0 +1,18 @@
+{% extends 'config/change_config.html' %}
+
+{% block content %}
+
+<u><b>central mikrotik:</b></u><br>
+<br>
+{% for mnemo in mnemokod %}
+
+/ppp secret remove {{ mnemo }}<br>
+/interface bridge port remove [find interface="{{ mnemo }}"]<br>
+/interface eoip remove {{ mnemo }}<br>
+
+<br>
+{% endfor %}
+<br>
+<input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+
+{% endblock  %}

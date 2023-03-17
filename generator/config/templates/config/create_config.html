@@ -1,0 +1,15 @@
+{% extends 'config/base.html' %}
+
+{% block sidebar %}
+  <div class="list-group">
+  <a href="{% url 'cisco_form' %}" class="list-group-item list-group-item-action">Cisco</a>
+  <a href="{% url 'cumikrotik_form' %}" class="list-group-item list-group-item-action">Central Mikrotik</a>
+  <a href="{% url 'mobibox_form' %}" class="list-group-item list-group-item-action">Client's Mobibox</a>
+  <a href="{% url 'get_l2tp_form' %}" class="list-group-item list-group-item-action">Get l2tp connect</a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+
+{% endblock  %}

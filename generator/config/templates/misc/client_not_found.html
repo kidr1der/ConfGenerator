@@ -1,0 +1,16 @@
+{% extends "config/create_config.html" %}
+{% block title %} Ошибка 504 {% endblock %}
+{% block content %}
+
+<main role="main" class="container">
+<div class="row">
+    <div class="col-md-12">
+        <p class="lead">Пользователь с мнемокодом {{ mnemokod }} на микротике {{ ip_mikrotik }} не найден</p>
+        <br>
+        <input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+    </div>
+</div>
+</main>
+
+
+{% endblock %}
