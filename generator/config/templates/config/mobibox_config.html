@@ -8,8 +8,8 @@
 /ip service disable api,api-ssl <br>
 /system clock set time-zone-name=Europe/Moscow <br>
 /system ntp client set enabled=yes primary-ntp=213.170.71.126 secondary-ntp=198.60.73.8 <br>
-/system watchdog set watchdog-timer=yes no-ping-delay=180 watch-address={{ watchdog }} <br>
-/system watchdog set watchdog-timer=yes ping-timeout=180 watch-address={{ watchdog }} <br>
+/system watchdog set watchdog-timer=yes no-ping-delay=180 watch-address={{ cuMikrotikIP }} <br>
+/system watchdog set watchdog-timer=yes ping-timeout=180 watch-address={{ cuMikrotikIP }} <br>
 /system identity set name={{ mnemokod }} <br>
 <br>
 ip firewall address-list add list=manage address=172.16.0.0/12 <br>

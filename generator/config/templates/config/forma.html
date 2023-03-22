@@ -7,17 +7,44 @@
 <form action="{% url name_form %}" method="post">
     {% csrf_token %}
 
-    {% for f in form %}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">{{ f.label }}</label>
-            <div class="col-sm-3">{{ f|addclass:"form-control" }}</div>
+<!--       {% for f in form %}-->
+<!--        <div class="form-group row">-->
+<!--            <label class="col-sm-2 col-form-label">{{ f.label }}</label>-->
+<!--            <div class="col-sm-3">{{ f|addclass:"form-control" }}</div>-->
+<!--            {% if f.errors %}-->
+<!--                <div class="alert alert-danger">-->
+<!--                    {{ f.errors }}-->
+<!--                </div>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+
+        {% for f in form %}
+            <div class="form-group row">
+                {% if f.label == "Central mikrotik IP" %}
+                <label class="col-sm-2 col-form-label">{{ f.label }}</label>
+                    <div class="col-sm-3">
+                        <select name="cuMikrotikIP" class="form-select">
+                          <option selected>Выберите...</option>
+                            {% for ipaddr in ipaddr_mikrotik %}
+                                <option value ="{{ ipaddr.ip_mikrotik }}">{{ ipaddr.filial }} - {{ ipaddr.ip_mikrotik }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% else %}
+<!--                <div class="form-group row">-->
+                    <label class="col-sm-2 col-form-label">{{ f.label }}</label>
+                    <div class="col-sm-3">{{ f|addclass:"form-control" }}</div>
+                {% endif %}
+
             {% if f.errors %}
                 <div class="alert alert-danger">
                     {{ f.errors }}
                 </div>
             {% endif %}
-        </div>
-    {% endfor %}
+
+            </div>
+        {% endfor %}
 
     <br>
     <button type="submit" class="btn btn-primary">Create config</button>

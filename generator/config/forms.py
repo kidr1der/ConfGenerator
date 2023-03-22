@@ -10,7 +10,7 @@ class CiscoForm(forms.Form):
 
 
 class MobiboxForm(forms.Form):
-    watchdog = forms.GenericIPAddressField(label="Central mikrotik IP")
+    cuMikrotikIP = forms.GenericIPAddressField(label="Central mikrotik IP")
     mnemokod = forms.CharField(max_length=50, label="Mnemokod")
     vlan = forms.IntegerField(label="Vlan")
     tunnel_id = forms.IntegerField(label="Tunnel ID")
@@ -26,6 +26,7 @@ class CUMikrotikForm(forms.Form):
 
 class GetL2tpForm(forms.Form):
     cuMikrotikIP = forms.GenericIPAddressField(label="Central mikrotik IP")
+    # cuMikrotikIP = forms.ChoiceField(label="Central mikrotik IP")
     mnemokod = forms.CharField(max_length=50, label="Mnemokod")
 
 

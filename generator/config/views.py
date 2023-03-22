@@ -10,6 +10,7 @@ from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render
 
 from .forms import *
+from .models import *
 
 load_dotenv()
 
@@ -96,26 +97,29 @@ def cisco(request):
         form = CiscoForm(request.POST)
         if form.is_valid():
             current_form = form.cleaned_data
-            current_form["title"] = "config Cisco"
+            current_form["title"] = "Cisco config"
             return render(request, "config/cisco_config.html", context=current_form)
     else:
         form = CiscoForm()
-    return render(request, "config/forma.html", {"title": "config Cisco", "form": form, "name_form": 'cisco_form'})
+    return render(request, "config/forma.html", {"title": "Cisco config", "form": form, "name_form": 'cisco_form'})
 
 
 def mobibox(request):
+    ipaddr_mikrotik = CentralMikrotik.objects.all().order_by('filial')
     if request.method == 'POST':
         form = MobiboxForm(request.POST)
         if form.is_valid():
             current_form = form.cleaned_data
-            current_form["title"] = "config client's Mobibox"
+            current_form["title"] = "Client's Mobibox config"
             return render(request, "config/mobibox_config.html", context=current_form)
     else:
         form = MobiboxForm()
-    return render(request, "config/forma.html", {"title": "config client's Mobibox", "form": form, "name_form": 'mobibox_form'})
+    return render(request, "config/forma.html", {"title": "Client's Mobibox config", "form": form,
+                                                 "ipaddr_mikrotik": ipaddr_mikrotik, "name_form": 'mobibox_form'})
 
 
 def cumikrotik(request):
+    ipaddr_mikrotik = CentralMikrotik.objects.all().order_by('filial')
     if request.method == 'POST':
         form = CUMikrotikForm(request.POST)
         if form.is_valid():
@@ -123,16 +127,18 @@ def cumikrotik(request):
             alphabet = string.ascii_letters + string.digits
             password = ''.join(secrets.choice(alphabet) for i in range(16))
             local_address = ".".join(current_form["remote_address"].split(".")[0:3])
-            current_form["title"] = "config CU Mikrotik"
+            current_form["title"] = "Central Mikrotik config"
             current_form["password"] = password
             current_form["local_address"] = local_address
             return render(request, "config/cumikrotik_config.html", context=current_form)
     else:
         form = CUMikrotikForm()
-    return render(request, "config/forma.html", {"title": "config CU Mikrotik", "form": form, "name_form": 'cumikrotik_form'})
+    return render(request, "config/forma.html", {"title": "Central Mikrotik config", "form": form,
+                                                 "ipaddr_mikrotik": ipaddr_mikrotik, "name_form": 'cumikrotik_form'})
 
 
 def get_l2tp_connect(request):
+    ipaddr_mikrotik = CentralMikrotik.objects.all().order_by('filial')
     if request.method == 'POST':
         form = GetL2tpForm(request.POST)
         if form.is_valid():
@@ -141,25 +147,20 @@ def get_l2tp_connect(request):
                 connect = ssh_connect(current_form["cuMikrotikIP"], current_form["mnemokod"])
             except (TimeoutError, paramiko.ssh_exception.NoValidConnectionsError,
                     paramiko.ssh_exception.AuthenticationException):
-                print("ШЕФ, ВСЕ ПРОПАЛО! КОННЕКТА НЕТ")
-                print("ШЕФ, ВСЕ ПРОПАЛО! КОННЕКТА НЕТ")
-                print("ШЕФ, ВСЕ ПРОПАЛО! КОННЕКТА НЕТ")
                 return timeout_error(request, current_form["cuMikrotikIP"])
             else:
                 try:
                     password = parser_l2tp(connect)
                 except AttributeError:
-                    print("ФСЁЁЁ, КИНА НЕ БУДЕТ. КЛИЕНТА НЕТ")
-                    print("ФСЁЁЁ, КИНА НЕ БУДЕТ. КЛИЕНТА НЕТ")
-                    print("ФСЁЁЁ, КИНА НЕ БУДЕТ. КЛИЕНТА НЕТ")
                     return client_not_found(request, current_form["cuMikrotikIP"], current_form["mnemokod"])
-
             current_form["password"] = password
-            current_form["title"] = "get l2tp connect mobibox"
+            current_form["title"] = "Get l2tp connect mobibox"
+
             return render(request, "config/get_l2tp_config.html", context=current_form)
     else:
         form = GetL2tpForm()
-    return render(request, "config/forma.html", {"title": "get l2tp connect mobibox", "form": form, "name_form": 'get_l2tp_form'})
+    return render(request, "config/forma.html", {"title": "Get l2tp connect mobibox", "form": form,
+                                                 "ipaddr_mikrotik": ipaddr_mikrotik, "name_form": 'get_l2tp_form'})
 
 
 def changemnemokod(request):

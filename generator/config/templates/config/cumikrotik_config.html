@@ -1,7 +1,7 @@
 {% extends 'config/create_config.html' %}
 
 {% block content %}
-<h1><u>{{ title }}</u></h1>
+<h1>{{ title }}</h1>
 <br>
 /ppp secret add local-address={{ local_address }}.129 name={{ mnemokod }} password={{ password }} profile=default remote-address={{ remote_address }} service=l2tp<br>
 /interface eoip add remote-address={{ remote_address }} tunnel-id={{ tunnel_id }}  name={{ mnemokod }} disabled=no !keepalive<br>
