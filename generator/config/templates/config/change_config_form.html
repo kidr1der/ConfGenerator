@@ -12,33 +12,33 @@
 <!--  <div class="col-auto">-->
 <!--    {{ f.label }}-->
 <!--  </div>-->
-  <div class="mb-1">
-    {{ f|addclass:"form-control" }}
-  </div>
-  <div class="mb-1">
-			{% if f.label == 'Delete Mnemokod' %}
-            <div  class="form-text">Формат ввода:<br><br>
-            Мнемокод: KD-PSBkie6MB<br>
-            Мнемокод: KD-PSBsve13MB<br>
-            Мнемокод: KD-PSBvak20MB<br><br>
-            KD-IPSazon2MB KD-Shkola204MB KD-RusAvtoMB<br>
-            </div>
-            {% endif %}
-  </div>
-  <div class="mb-1">
-			{% if f.label == 'Change Mnemokod' %}
-            <div  class="form-text">Формат ввода:<br><br>
-            с Chel-Zdrav1MB на Chel-MiZd1MB <br>
-            с Бр-ИПСадоховАС_пер / Br-IPSadohov на Бр-ИПСадоховА_пер / Br-IPSadohovA <br>
-            старый Br-IPTishenko новый Br-IPKolupanov <br>
-            </div>
-            {% endif %}
-  </div>
-{% if f.errors %}
-	<div class="alert alert-danger">
-		{{ f.errors }}
-	</div>
-{% endif %}
+      <div class="col col-md-7">
+        {{ f|addclass:"form-control" }}
+      </div>
+      <div class="mb-0">
+                {% if f.label == 'Delete Mnemokod' %}
+                <div  class="form-text">Формат ввода:<br><br>
+                Мнемокод: KD-PSBkie6MB<br>
+                Мнемокод: KD-PSBsve13MB<br>
+                Мнемокод: KD-PSBvak20MB<br><br>
+                KD-IPSazon2MB KD-Shkola204MB KD-RusAvtoMB<br>
+                </div>
+                {% endif %}
+      </div>
+      <div class="mb-0">
+                {% if f.label == 'Change Mnemokod' %}
+                <div  class="form-text">Формат ввода:<br><br>
+                с Chel-Zdrav1MB на Chel-MiZd1MB <br>
+                с Бр-ИПСадоховАС_пер / Br-IPSadohov на Бр-ИПСадоховА_пер / Br-IPSadohovA <br>
+                старый Br-IPTishenko новый Br-IPKolupanov <br>
+                </div>
+                {% endif %}
+      </div>
+    {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>
+    {% endif %}
 
 </div>
 {% endfor %}

@@ -2,24 +2,27 @@
 
 {% block content %}
 
-{% for mnemo in mnemokod %}
 
-################################################################################<br>
-<u><b>central mikrotik:</b></u><br>
+<u><b>Central mikrotik config:</b></u><br>
+{% for mnemo in mnemokod %}
 <br>
 /ppp secret set {{ mnemo.0 }} name={{ mnemo.1 }}<br>
 /interface eoip set {{ mnemo.0 }} name={{ mnemo.1 }}<br>
+
+{% endfor %}
 <br>
 
-<u><b>client's mobibox:</b></u><br>
+<br>
+<u><b>Client's mobibox config:</b></u><br>
+{% for mnemo in mnemokod %}
 <br>
 /system identity set name={{ mnemo.1 }}<br>
 /tool netwatch remove numbers=0<br>
 /interface l2tp-client set numbers=0 user={{ mnemo.1 }}<br>
-<br>
+
 {% endfor %}
 <br>
-
+<br>
 :global user [/interface l2tp-client get number=0 value-name=user] <br>
 :global pass [/interface l2tp-client get number=0 value-name=password] <br>
 :global l2tpIP [/interface l2tp-client get number=0 value-name=connect-to] <br>
@@ -40,7 +43,6 @@
     \n}" <br>
 
 <br>
-
 
 
 <input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">
