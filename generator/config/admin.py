@@ -3,7 +3,7 @@ from .models import *
 
 
 class CentralMikrotikAdmin(admin.ModelAdmin):
-    list_display = (id, 'filial', 'ip_mikrotik')
+    list_display = ('filial', 'ip_mikrotik', 'color')
 
 
 admin.site.register(CentralMikrotik, CentralMikrotikAdmin)

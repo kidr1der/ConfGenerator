@@ -27,7 +27,7 @@
                         <select name="cuMikrotikIP" class="form-select">
                           <option selected>Выберите...</option>
                             {% for ipaddr in ipaddr_mikrotik %}
-                                <option value ="{{ ipaddr.ip_mikrotik }}">{{ ipaddr.filial }} - {{ ipaddr.ip_mikrotik }} </option>
+                                <option style='background-color:{{ ipaddr.color }}' value="{{ ipaddr.ip_mikrotik }}">{{ ipaddr.filial }} - {{ ipaddr.ip_mikrotik }} </option>
                             {% endfor %}
                         </select>
                     </div>

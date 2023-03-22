@@ -120,6 +120,7 @@ def mobibox(request):
 
 def cumikrotik(request):
     ipaddr_mikrotik = CentralMikrotik.objects.all().order_by('filial')
+    print(request.POST)
     if request.method == 'POST':
         form = CUMikrotikForm(request.POST)
         if form.is_valid():
