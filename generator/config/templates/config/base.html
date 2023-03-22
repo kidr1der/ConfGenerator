@@ -24,11 +24,6 @@
         <!-- Sidebar слева -->
             <td valign="top" class="left-chapters">
             <ul id="leftchapters">
-<!--                <div class="list-group">-->
-<!--                  <a href="{% url 'cisco_form' %}" class="list-group-item list-group-item-action">Cisco</a>-->
-<!--                  <a href="{% url 'cumikrotik_form' %}" class="list-group-item list-group-item-action">Central Mikrotik</a>-->
-<!--                  <a href="{% url 'mobibox_form' %}" class="list-group-item list-group-item-action">Client's Mobibox</a>-->
-<!--                </div>-->
             {% block sidebar %}
             {% endblock %}
             </ul>
@@ -52,12 +47,12 @@
     </table>
 </td></tr>
 
-<!-- Footer -->
-<tr><td valign=bottom>
-	<div id="footer">
-		{% include 'footer.html' %}
-	</div>
-</td></tr>
+    <!-- Footer -->
+    <tr>
+        <td valign=bottom>
+            <div> {% include 'footer.html' %}</div>
+        </td>
+    </tr>
 </table>
 <!-- Конец footer'а и страницы -->
 

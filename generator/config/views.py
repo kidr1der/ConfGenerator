@@ -170,11 +170,11 @@ def changemnemokod(request):
         if form.is_valid():
             current_form = form.cleaned_data
             current_form = parsmnemokod(current_form['mnemokod'], name='changemnemokod')
-            current_form["title"] = "change Mnemokod"
+            current_form["title"] = "Change Mnemokod"
             return render(request, "config/change-mnemokod_config.html", context=current_form)
     else:
         form = ChangeMnemocodMobiboxForm()
-    return render(request, "config/change_config_form.html", {"title": "change mnemokod Mobibox", "form": form, "name_form": 'change_mnemokod_form'})
+    return render(request, "config/change_config_form.html", {"title": "Change mnemokod Mobibox", "form": form, "name_form": 'change_mnemokod_form'})
 
 
 def deletemobibox(request):
@@ -183,11 +183,11 @@ def deletemobibox(request):
         if form.is_valid():
             current_form = form.cleaned_data
             current_form = parsmnemokod(current_form['mnemokod'], name="deletemobibox")
-            current_form["title"] = "delete Mobibox"
+            current_form["title"] = "Delete Mobibox"
             return render(request, "config/delete-mobibox_config.html", context=current_form)
     else:
         form = DeleteMobiboxForm()
-    return render(request, "config/change_config_form.html", {"title": "delete client Mobibox", "form": form, "name_form": 'delete_mobibox_form'})
+    return render(request, "config/change_config_form.html", {"title": "Delete client Mobibox", "form": form, "name_form": 'delete_mobibox_form'})
 
 
 def timeout_error(request, ip_mikrotik):
