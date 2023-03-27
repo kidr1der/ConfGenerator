@@ -1,0 +1,14 @@
+no interface GigabitEthernet0/0/0.{{ vlan }}
+
+interface GigabitEthernet0/0/0.{{ vlan }}
+ description {{ mnemokod }}
+ encapsulation dot1Q {{ vlan }}
+ ip unnumbered Loopback1
+ ip access-group OfficeDeny in
+ ip flow ingress
+ ip flow monitor NetFlowIN input
+ ip policy route-map SuricataIN
+ service-policy input {{ speed }}k
+ service-policy output {{ speed }}k
+
+ip route {{ ipaddress }} 255.255.255.255 GigabitEthernet0/0/0.{{ vlan }} 10

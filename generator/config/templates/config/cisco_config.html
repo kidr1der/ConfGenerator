@@ -3,21 +3,7 @@
 {% block content %}
 <h1>{{ title }}</h1>
 <br>
-no interface GigabitEthernet0/0/0.{{ vlan }} <br>
-<br>
-interface GigabitEthernet0/0/0.{{ vlan }} <br>
- description {{ mnemokod }} <br>
- encapsulation dot1Q {{ vlan }} <br>
- ip unnumbered Loopback1 <br>
- ip access-group OfficeDeny in <br>
- ip flow ingress <br>
- #DIFFERENT IP FLOW DUE TO IOS <br>
- ip flow monitor NetFlowIN input <br>
- ip policy route-map SuricataIN <br>
- service-policy input {{ speed }}k <br>
- service-policy output {{ speed }}k <br>
-<br>
-ip route {{ ipaddress }} 255.255.255.255 GigabitEthernet0/0/0.{{ vlan }} 10 <br>
+{{ config|linebreaks }}
 <br>
 <br>
 <input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">

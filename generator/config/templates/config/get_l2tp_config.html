@@ -3,8 +3,7 @@
 {% block content %}
 <h1>{{ title }}</h1>
 <br>
-/interface l2tp-client add add-default-route=yes allow=mschap2 connect-to={{ cuMikrotikIP }} disabled=no keepalive-timeout=disabled name=l2tp-out1 password={{ password }} user={{ mnemokod }}<br>
-/ip dhcp-client set default-route-distance=10 numbers=0<br>
+{{ config|linebreaks }}
 <br>
 <br>
 <input type=button class="btn btn-primary" value="Previous Page" onClick="javascript:history.go(-1);">

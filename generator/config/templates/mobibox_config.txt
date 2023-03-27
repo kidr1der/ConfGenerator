@@ -1,0 +1,53 @@
+/ip dns set allow-remote-requests=no
+/ip service disable ftp,telnet
+/ip service disable api,api-ssl
+/system clock set time-zone-name=Europe/Moscow
+/system ntp client set enabled=yes primary-ntp=213.170.71.126 secondary-ntp=198.60.73.8
+/system watchdog set watchdog-timer=yes no-ping-delay=180 watch-address={{ cuMikrotikIP }}
+/system watchdog set watchdog-timer=yes ping-timeout=180 watch-address={{ cuMikrotikIP }}
+/system identity set name={{ mnemokod }}
+
+ip firewall address-list add list=manage address=172.16.0.0/12
+ip firewall address-list add list=manage address=192.168.0.0/16
+ip firewall address-list add list=manage address=213.170.105.102
+ip firewall address-list add list=manage address=213.170.120.49
+ip firewall address-list add list=manage address=213.170.116.37
+ip firewall address-list add list=manage address=213.170.117.4
+ip firewall address-list add list=manage address=88.86.77.65
+ip firewall address-list add list=manage address=77.235.202.4
+ip firewall filter add chain=input action=accept src-address-list=manage
+ip firewall filter add chain=input action=reject reject-with=icmp-network-unreachable protocol=tcp dst-port=22,23,80,8291
+
+/interface eoip add name=eoip remote-address={{ eoip }} tunnel-id={{ tunnel_id }} !keepalive
+/interface vlan add interface=eoip name=vlan{{ vlan }} vlan-id={{ vlan }}
+
+/interface bridge remove [find]
+/interface bridge port remove [find]
+/interface bridge add name=bridge
+/interface bridge port add bridge=bridge interface=ether1
+/interface bridge port add bridge=bridge interface=vlan{{ vlan }}
+
+/interface ethernet reset-mac-address 0
+/interface ethernet reset-mac-address 1
+
+/interface l2tp-client set max-mtu=1300 max-mru=1300 numbers=0
+
+:global user [/interface l2tp-client get number=0 value-name=user]
+:global pass [/interface l2tp-client get number=0 value-name=password]
+:global l2tpIP [/interface l2tp-client get number=0 value-name=connect-to]
+:global maxmtu [/interface l2tp-client get number=0 value-name=max-mtu]
+:global maxmru [/interface l2tp-client get number=0 value-name=max-mru]
+
+/tool netwatch add host=$l2tpIP down-script="log error \"Core mikrotik DOWN, trying reset USB power... See netwatch.\"\
+    \n/system routerboard usb power-reset duration=10s\
+    \n:delay 25\
+    \n/ip dhcp-client add default-route-distance=10 interface=lte1 disabled=no\
+    \n/ip dhcp-client set interface=lte1 numbers=0\
+    \n/ip dhcp-client set default-route-distance=10 numbers=0" up-script=":global stausL2TP [/interface l2tp-client get number=0 running]\
+    \nif (\$stausL2TP = false) do={\
+    \n  log error \"Core mikrotik UP, but l2tp not running, trying reconfigure l2tp...See netwatch.\"\
+    \n  /interface l2tp-client remove [/interface l2tp-client find]\
+    \n  /interface l2tp-client add name=l2tp-out1 add-default-route=yes connect-to=$l2tpIP default-route-distance=1 disabled=no \
+    password=\"$pass\" profile=default user=$user max-mtu=$maxmtu max-mru=$maxmru keepalive-timeout=disabled\
+    \n}"
+

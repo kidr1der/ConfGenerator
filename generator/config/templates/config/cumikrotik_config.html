@@ -3,17 +3,7 @@
 {% block content %}
 <h1>{{ title }}</h1>
 <br>
-/ppp secret add local-address={{ local_address }}.129 name={{ mnemokod }} password={{ password }} profile=default remote-address={{ remote_address }} service=l2tp<br>
-/interface eoip add remote-address={{ remote_address }} tunnel-id={{ tunnel_id }}  name={{ mnemokod }} disabled=no !keepalive<br>
-/interface bridge port add bridge=bridgeUnnumbered horizon=3 interface={{ mnemokod }}<br>
-<br>
-<br>
-<u><b>For engineer:</b></u><br>
-<br>
-/interface l2tp-client add add-default-route=yes allow=mschap2 connect-to={{ cuMikrotikIP }} disabled=no keepalive-timeout=disabled name=l2tp-out1 \<br>
-password={{ password }} user={{ mnemokod }}<br>
-/ip dhcp-client set default-route-distance=10 numbers=0<br>
-<br>
+{{ config|safe|linebreaks }}
 <br>
 <span style="color:red">	#CHECK THE HORIZON & LOCAL-ADDRESS!!! </span> <br>
 <br>
