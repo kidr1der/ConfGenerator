@@ -48,11 +48,6 @@ def parser_l2tp(value):
     password = pattern.search(value)
     return password.groupdict().get("passwd")
 
-# def openconfig(nameconf):
-#     with open('config/templates/config/' + nameconf, mode='r') as file:
-#         conf = file.read()
-#     return conf
-
 
 def shablon_jinja(name_template, context):
     file_loader = FileSystemLoader('config/templates')
